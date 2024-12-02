@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React Fundamentals</title>
+  </head>
+  <body>
+    <!-- <div id="root">Hello World</div> -->
+    <!-- <div id="root">
+      <div class="container">Hello World</div>
+    </div> -->
+
+    <!-- <nav>
+      <ul>
+        <li>
+          <a href="#">Home</a>
+        </li>
+      </ul>
+    </nav> -->
+
+    <!-- <ul>
+      <li>Item 1</li>
+      <li>Item 2</li>
+      <li>Item 3</li>
+    </ul> -->
+  </body>
+
+  <script
+    crossorigin
+    src="https://unpkg.com/react@18/umd/react.production.min.js"
+  ></script>
+
+  <script
+    crossorigin
+    src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+  ></script>
+
+  <script
+    type="text/javascript"
+    src="https://unpkg.com/babel-standalone@6/babel.js"
+  ></script>
+
+  <script type="text/babel">
+    // const element = document.createElement("div");
+
+    // element.setAttribute("id", "root");
+
+    // element.className = "container";
+
+    // element.textContent = "Hello World";
+
+    // document.body.appendChild(element);
+
+    // const element = React.createElement(
+    //   "div",
+    //   {
+    //     id: "root",
+    //   },
+    //   "Hello World"
+    // );
+
+    // ReactDOM.render(element, document.body);
+
+    // const containerElement = React.createElement(
+    //   "div",
+    //   {
+    //     className: "container",
+    //   },
+    //   "Hello World"
+    // );
+
+    // const rootElement = React.createElement(
+    //   "div",
+    //   { id: "root" },
+    //   containerElement
+    // );
+
+    // const rootElement = React.createElement(
+    //   "ul",
+    //   {
+    //     id: "root",
+    //     children: [
+    //       React.createElement("li", null, "Item 1"),
+    //       React.createElement("li", null, "Item 2"),
+    //       React.createElement("li", null, "Item 3"),
+    //     ],
+    //   }
+    //   //   [
+    //   //     React.createElement("li", null, "Item 1"),
+    //   //     React.createElement("li", null, "Item 2"),
+    //   //     React.createElement("li", null, "Item 3"),
+    //   //   ]
+    // );
+
+    // ReactDOM.render(rootElement, document.body);
+
+    // JSX
+    const rootElement = (
+      <ul id="root">
+        <li>
+          <a href="">
+            <span>Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <span>Aboout</span>
+          </a>
+        </li>
+      </ul>
+    );
+
+    ReactDOM.render(rootElement, document.body);
+  </script>
+</html>
