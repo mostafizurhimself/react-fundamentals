@@ -1,10 +1,15 @@
+import { FC } from "react";
 import { FiBell, FiChevronDown } from "react-icons/fi";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 
-export default function Header() {
+type HeaderProps = {
+  onClick: () => void;
+};
+
+const Header: FC<HeaderProps> = ({ onClick }) => {
   return (
     <header className="shadow-md bg-white h-16 px-8 flex items-center">
-      <button>
+      <button onClick={onClick}>
         <HiOutlineMenuAlt2 size={24} />
       </button>
 
@@ -22,4 +27,6 @@ export default function Header() {
       </div>
     </header>
   );
-}
+};
+
+export default Header;

@@ -19,6 +19,11 @@ export default {
           950: "#2a1c4a",
         },
       },
+      // transitionProperty: {
+      //   height: "height",
+      //   width: "width",
+      //   spacing: "margin, padding",
+      // },
     },
   },
   plugins: [],
