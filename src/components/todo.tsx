@@ -1,5 +1,18 @@
-import React, { useState } from "react";
+import React, { useReducer, useState } from "react";
 import { FaTrash, FaEdit, FaCheck } from "react-icons/fa";
+import { useImmerReducer } from "use-immer";
+
+// const useCustomReducer = (reducer, initialState) => {
+//   const [state, setState] = useState(initialState);
+//   const dispatch = (action) => {
+//     // setState(reducer(state, action));
+
+//     const newState = reducer(state, action);
+//     setState(newState);
+//   };
+
+//   return [state, dispatch];
+// };
 
 interface Todo {
   id: number;
@@ -8,37 +21,92 @@ interface Todo {
 }
 
 const TodoApp: React.FC = () => {
-  const [todos, setTodos] = useState<Todo[]>([
-    { id: 1, text: "Learn React", completed: false },
-    { id: 2, text: "Build a Todo App", completed: false },
-  ]);
+  // const [todos, dispatch] = useReducer(
+  //   function (prev: Todo[], action: { type: string; payload: Todo }) {
+  //     if (action.type === "ADD") {
+  //       return [...prev, action.payload];
+  //       // prev.push(action.payload);
+  //     }
+
+  //     if (action.type === "REMOVE") {
+  //       return prev.filter((todo) => todo.id !== action.payload.id);
+  //     }
+
+  //     if (action.type === "TOGGLE") {
+  //       return prev.map((todo) => {
+  //         return todo.id === action.payload.id
+  //           ? { ...todo, completed: !todo.completed }
+  //           : todo;
+  //       });
+  //     }
+
+  //     if (action.type === "EDIT") {
+  //       return prev.map((todo) => {
+  //         return todo.id === action.payload.id
+  //           ? { ...todo, text: action.payload.text }
+  //           : todo;
+  //       });
+  //     }
+
+  //     return prev;
+  //   },
+  //   [
+  //     { id: 1, text: "Learn React", completed: false },
+  //     { id: 2, text: "Build a Todo App", completed: false },
+  //   ]
+  // );
+
+  const [todos, dispatch] = useImmerReducer(
+    function (prev: Todo[], action: { type: string; payload: Todo }) {
+      if (action.type === "ADD") {
+        prev.push(action.payload);
+      }
+
+      if (action.type === "REMOVE") {
+        prev.splice(
+          prev.findIndex((todo) => todo.id === action.payload.id),
+          1
+        );
+      }
+
+      if (action.type === "TOGGLE") {
+        const index = prev.findIndex((todo) => todo.id === action.payload.id);
+
+        prev[index].completed = !prev[index].completed;
+      }
+
+      if (action.type === "EDIT") {
+        const index = prev.findIndex((todo) => todo.id === action.payload.id);
+
+        prev[index].text = action.payload.text;
+      }
+
+      return prev;
+    },
+    [
+      { id: 1, text: "Learn React", completed: false },
+      { id: 2, text: "Build a Todo App", completed: false },
+    ]
+  );
+
   const [newTodo, setNewTodo] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editText, setEditText] = useState("");
 
   const addTodo = (): void => {
-    if (newTodo.trim()) {
-      setTodos([...todos, { id: Date.now(), text: newTodo, completed: false }]);
-      setNewTodo("");
-    }
+    dispatch({
+      type: "ADD",
+      payload: { id: Date.now(), text: newTodo, completed: false },
+    });
+    setNewTodo("");
   };
 
-  const removeTodo = (id: number): void => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+  const removeTodo = (todo: Todo): void => {
+    dispatch({ type: "REMOVE", payload: todo });
   };
 
-  const toggleComplete = (id: number): void => {
-    setTodos(
-      todos.map((todo) => {
-        // return todo.id === id ? { ...todo, completed: !todo.completed } : todo;
-
-        if (todo.id === id) {
-          return { ...todo, completed: !todo.completed };
-        } else {
-          return todo;
-        }
-      })
-    );
+  const toggleComplete = (todo: Todo): void => {
+    dispatch({ type: "TOGGLE", payload: todo });
   };
 
   const startEditing = (todo: Todo): void => {
@@ -47,17 +115,10 @@ const TodoApp: React.FC = () => {
   };
 
   const saveEdit = (): void => {
-    setTodos(
-      todos.map((todo) => {
-        // return todo.id === editingId ? { ...todo, text: editText } : todo
-
-        if (todo.id === editingId) {
-          return { ...todo, text: editText };
-        } else {
-          return todo;
-        }
-      })
-    );
+    dispatch({
+      type: "EDIT",
+      payload: { id: Number(editingId), text: editText, completed: false },
+    });
     setEditingId(null);
   };
 
@@ -90,7 +151,7 @@ const TodoApp: React.FC = () => {
             <input
               type="checkbox"
               checked={todo.completed}
-              onChange={() => toggleComplete(todo.id)}
+              onChange={() => toggleComplete(todo)}
               className="mr-2"
             />
 
@@ -129,7 +190,7 @@ const TodoApp: React.FC = () => {
 
                 {/* Delete Button */}
                 <button
-                  onClick={() => removeTodo(todo.id)}
+                  onClick={() => removeTodo(todo)}
                   className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-500 text-gray-50 hover:bg-red-500/90 h-10 w-10"
                 >
                   <FaTrash className="h-4 w-4" />
