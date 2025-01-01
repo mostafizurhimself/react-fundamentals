@@ -1,13 +1,16 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
+import SidebarContext from "../contexts/sidebar-context";
 
-type SidebarToggleProps = {
-  toggleSidebar: () => void;
-};
+const SidebarToggle: FC = () => {
+  const context = useContext(SidebarContext);
 
-const SidebarToggle: FC<SidebarToggleProps> = ({ toggleSidebar }) => {
+  const onToggleSidebar = () => {
+    context?.setIsCollapsed((prev) => !prev);
+  };
+
   return (
-    <button onClick={toggleSidebar}>
+    <button onClick={onToggleSidebar}>
       <HiOutlineMenuAlt2 size={24} />
     </button>
   );

@@ -1,13 +1,18 @@
 import clsx from "clsx";
+import { useContext } from "react";
+import SidebarContext from "../contexts/sidebar-context";
 
 type AppLogoProps = {
   className?: string;
   height?: number;
   width?: number;
-  isCollapsed?: boolean;
 };
 
-const AppLogo = ({ className, height, width, isCollapsed }: AppLogoProps) => {
+const AppLogo = ({ className, height, width }: AppLogoProps) => {
+  const context = useContext(SidebarContext);
+
+  const isCollapsed = context?.isCollapsed;
+
   return (
     <div className="flex items-center gap-2">
       <div className={clsx("flex-shrink-0", className)}>

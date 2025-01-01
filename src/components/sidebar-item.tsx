@@ -1,19 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import { IconType } from "react-icons";
+import SidebarContext from "../contexts/sidebar-context";
 
 type SidebarItemProps = {
   name: string;
   icon?: IconType;
   isActive?: boolean;
-  isCollapsed: boolean;
 };
 
 export default function SidebarItem({
   name,
   icon,
   isActive,
-  isCollapsed,
 }: SidebarItemProps) {
+  const context = useContext(SidebarContext);
+
+  const isCollapsed = context?.isCollapsed;
+
   if (icon) {
     return (
       <li
