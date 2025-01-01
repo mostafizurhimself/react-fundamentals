@@ -5,6 +5,7 @@ import { clsx } from "clsx";
 
 type SidebarProps = {
   isCollapsed: boolean;
+  className?: string;
   onClose: () => void;
 };
 
@@ -14,20 +15,11 @@ const Sidebar = (props: SidebarProps) => {
       <aside
         className={clsx(
           "h-screen shadow absolute bg-white transform  md:translate-x-0 z-20 transition-width duration-150",
-          props.isCollapsed ? "w-[80px]" : "w-64",
-          props.isCollapsed ? "translate-x-[-80px]" : "translate-x-0"
+          props.className
         )}
       >
-        <div className="h-16 flex gap-2 items-center p-4">
-          <div className="flex-shrink-0">
-            <AppLogo height={40} />
-          </div>
-          {!props.isCollapsed && (
-            <div>
-              <h4 className="font-bold text-lg leading-6 ">Wecommerce</h4>
-              <p className="text-sm leading-5 ">Admin Dashboard</p>
-            </div>
-          )}
+        <div className="h-16 p-4">
+          <AppLogo height={40} isCollapsed={props.isCollapsed} />
         </div>
         <ul className="p-4 space-y-1">
           {menu.map((item, index) => (
