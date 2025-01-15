@@ -1,41 +1,20 @@
-import { FC, forwardRef, useImperativeHandle, useRef } from "react";
+import { FC, useEffect, useRef } from "react";
 
-// // Old Way
-// const Input = forwardRef<
-//   HTMLInputElement,
-//   React.InputHTMLAttributes<HTMLInputElement>
-// >((props, ref) => {
-//   return (
-//     <input
-//       ref={ref}
-//       type="text"
-//       className="border border-gray-300 p-2 rounded text-sm w-64"
-//       {...props}
-//     />
-//   );
-// });
+type InputProps = {} & React.InputHTMLAttributes<HTMLInputElement>;
 
-// New Way
-type InputProps = {
-  ref: React.Ref<{ focus: () => void }>;
-};
+const Input: FC<InputProps> = (props) => {
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
-const Input: FC<InputProps> = ({ ref }) => {
-  const realRef = useRef<HTMLInputElement | null>(null);
-
-  useImperativeHandle(ref, () => {
-    return {
-      focus: () => {
-        realRef.current?.focus();
-      },
-    };
+  useEffect(() => {
+    inputRef.current?.focus();
   });
 
   return (
     <input
-      ref={realRef}
+      ref={inputRef}
       type="text"
       className="border border-gray-300 p-2 rounded text-sm w-64"
+      {...props}
     />
   );
 };
