@@ -1,13 +1,13 @@
-import { FC, useEffect, useRef } from "react";
+import { FC, useRef } from "react";
 
 type InputProps = {} & React.InputHTMLAttributes<HTMLInputElement>;
 
 const Input: FC<InputProps> = (props) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  useEffect(() => {
-    inputRef.current?.focus();
-  });
+  // useEffect(() => {
+  //   inputRef.current?.focus();
+  // });
 
   return (
     <input
